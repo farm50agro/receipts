@@ -1,35 +1,96 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Farm50 Agro — Receipts</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <title>Farm50 Agro — Payments & Receipts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    html,body{
-      margin:0;
-      height:100%;
-      background:#f6f7fb;
-      font-family:Segoe UI,Roboto,Arial,sans-serif;
+    :root { --brand:#2F5597; --ink:#0f172a; --sub:#475569; --bg:#f6f7fb; --border:#e5e7eb; }
+
+    * { box-sizing: border-box }
+    html, body { height: 100%; margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,'Noto Sans Bengali','Hind Siliguri',sans-serif; }
+
+    /* Top Nav (same look as home) */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: #fff; border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
     }
-    .topbar{
-      position:fixed;
-      top:8px;
-      left:10px;
-      font-size:13px;
-      color:#334155;
-      opacity:0.5;
-      z-index:10;
+    .nav-inner {
+      max-width: 980px; margin: 0 auto; padding: 10px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
     }
-    iframe{
-      position:absolute;
-      top:0;left:0;
-      width:100%;height:100%;
-      border:none;
+    .nav-brand { display: flex; align-items: center; gap: 10px }
+    .nav-logo { height: 32px; width: auto }
+    .nav-title { font-weight: 800; letter-spacing: .3px }
+    .nav-links { display: flex; gap: 12px; align-items: center }
+    .nav-link { padding: 8px 10px; border-radius: 10px; font-weight: 600; color: #1f2937; text-decoration: none }
+    .nav-link:hover { background: #eef2ff; color: #111827 }
+    .nav-cta { background: var(--brand); color: #fff; font-weight: 700; padding: 9px 12px; border-radius: 10px; text-decoration: none }
+
+    /* Mobile menu (simple CSS toggle) */
+    .nav-menu-btn { display: none; background:#eef2ff; border:1px solid #dbeafe; padding:8px 10px; border-radius:10px; font-weight:700 }
+    #menuToggle { display: none }
+    @media (max-width: 720px){
+      .nav-inner { flex-wrap: wrap }
+      .nav-links { display: none; width: 100% }
+      #menuToggle:checked + .nav-menu-btn + .nav-links {
+        display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding-bottom: 10px;
+      }
+      .nav-menu-btn { display: inline-block }
+    }
+
+    /* Iframe area */
+    .frame-wrap {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      /* Reserve space for nav height (~58px incl. border/shadow). Adjust if you change nav paddings. */
+      top: 58px;
+    }
+    iframe {
+      width: 100%; height: 100%; border: 0; display: block;
+      background: #fff;
     }
   </style>
 </head>
 <body>
-  <div class="topbar">Farm50 Agro</div>
-  <iframe src="https://script.google.com/macros/s/AKfycbzt4v0JsZdRDKMFLcIxz40YyATCBOPLGwYSVMNDFCn3IdKUbsh7SrX31URH9FKUz0o6/exec"></iframe>
+
+  <!-- Top Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <!-- Put your logo file at docs/assets/logo.png in your repo -->
+        <img class="nav-logo" src="../assets/logo.png" alt="Farm50 Agro" onerror="this.style.display='none'">
+        <div class="nav-title">Farm50 Agro</div>
+      </div>
+
+      <!-- Mobile toggle -->
+      <input type="checkbox" id="menuToggle">
+      <label class="nav-menu-btn" for="menuToggle">Menu</label>
+
+      <!-- Links (adjust to your actual URLs) -->
+      <div class="nav-links">
+        <a class="nav-link" href="../">Home</a>
+        <a class="nav-link" href="./">Payments</a>
+        <a class="nav-link" href="../announcements/">Announcements</a>
+        <!-- Or link directly to Apps Script modes:
+        <a class="nav-link" href="https://script.google.com/macros/s/AKfycb.../exec?mode=payments" target="_blank">Open in new tab</a>
+        -->
+        <a class="nav-cta" href="mailto:farm50.agro@gmail.com">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Iframe container -->
+  <div class="frame-wrap">
+    <!--
+      IMPORTANT: Use ?mode=payments so only the Payments card renders.
+      If you intentionally want both, remove the query parameter.
+    -->
+    <iframe
+      src="https://script.google.com/macros/s/AKfycbzt4v0JsZdRDKMFLcIxz40YyATCBOPLGwYSVMNDFCn3IdKUbsh7SrX31URH9FKUz0o6/exec"
+      allow="clipboard-read; clipboard-write">
+    </iframe>
+  </div>
+
 </body>
 </html>
